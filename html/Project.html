@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" type="image/x-icon" href="../image/favicon.ico">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+  <title>Raffaele Tolino</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark container fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Progetto</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="../index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="University.html">Percorso Universitario</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Contact.html">Contatti</a>
+          </li>
+        </ul>
+     </div>
+    </div>
+  </nav>
+  <div class="content container">
+    <h3 class="normal-text reveal">Introduzione</h3>
+    <p class="reveal">L’attività di tirocinio ha riguardato l’implementazione di un’applicazione di analisi di dati reali di
+    un cluster di elaboratori di esercizio. Il lavoro è stato sviluppato in linguaggio Python usando alcune
+    librerie di Apache Spark sul Notebook Jupyter, un’applicazione web gratuita e open-source. Il
+    tirocinio ha avuto la durata di 275 ore svolto tra il 04/07/2019 al 31/10/2019.<p>
+    <p class="reveal">Nella fase iniziale sono stati appresi i concetti base dell’architettura NFV e del 5G.  Successivamente si è passati allo studio del Framework di Apache Spark e la gestione dei dati
+    attraverso RDD (Resilient Distribuited Dataset), un'astrazione di programmazione che rappresentauna una raccolta immutabile di oggetti che possono essere suddivisi in un cluster di elaborazione.
+    Infine è stato studiato il linguaggio di programmazione Python che è un linguaggio ad alto livello, orientato agli oggetti e ha tra i principali obbiettivi dinamicità e flessibilità. Uno degli usi più
+    comuni di Python è come strumento di analisi dei dati. Python è stato usato su un’applicazione Web e open-source, ovvero il Notebook Jupyter.</p>
+    <p class="reveal">Tutto questo è stato utile per comiciare a studiare un set di dati fornito da Google che descrive la semantica, il formato
+    dei dati e lo schema delle tracce di utilizzo di una cella di calcolo di Google.
+    Una traccia di utilizzo singolo in genere descrive diversi giorni del carico di lavoro su una di queste
+    celle di calcolo. Una traccia è composta da diversi set di dati. Un set di dati contiene una singola
+    tabella, indicizzata da una chiave primaria. Ogni set di dati è impacchettato come un insieme di uno
+    o più file, ciascuno fornito in un formato CSV compresso.
+    Il set di dati comprende varie tabelle:</p>
+    <ul class="tab reveal">
+      <li>Machine events table</li>
+      <li>Machine attributes table</li>
+      <li>Job events table</li>
+      <li>Task events table</li>
+      <li>Task constraints table</li>
+    </ul>
+      <p class="reveal">Il mio studio si è soffermato su Job events table che descrive il lavoro e il suo ciclo di vita.</P>
+      <img class="reveal" src="../image/job.png" alt="immagine ciclo di vita di un lavoro" height="200" width="300">
+      <p class="reveal">La tabella degli eventi di lavoro contiene i seguenti campi:
+      <ul class="tab reveal">
+        <li>timestamp (che è in microsecondi da 600 secondi prima dell'inizio del periodo di traccia)</li>
+        <li>missing info (informazioni mancanti)</li>
+        <li>job ID (ID del lavoro)</li>
+        <li>event type (tipo di evento composto da un numero compreso tra 0-8)</li>
+        <li>user name (i nomi utente/lavoro sono sottoposti a hash e forniti come stringhe opache)</li>
+        <li>scheduling class (rappresenta approssimativamente la sensibilità alla latenza)</li>
+        <li>job name</li>
+        <li>logical job name</li> </p>
+        <p class="reveal">Ogni evento di lavoro ha un valore che rappresenta il tipo di evento:
+      <ul class="tab reveal">
+        <li>SUBMIT (0) un'attività o un lavoro sono diventati idonei per la pianificazione.</li>
+        <li>SCHEDULE (1) un lavoro o un'attività è stata pianificata su una macchina.</li>
+        <li>EVICT (2) significa che il sistema non è in grado di soddisfare i requisiti delle risorse del lavoro o dell'attività e che il processo è stato annullato. </li>
+        <li>KILL (5) indica che il lavoro o l'attività sono stati uccisi dall'utente o dall'amministratore del sistema, oppure perché è morto un altro lavoro o attività da cui dipendeva questo lavoro.</li>
+        <li>FAIL (3) significa che il lavoro o l'attività non ha determinato un'esecuzione e che è stata terminata più in fretta a causa di un'anomalia o condizione anomala.</li>
+        <li>FINISH (4) significa che il lavoro o l'attività è stata completata con esito positivo.</li>
+        <li>LOST (6) Perso significa che manca il record che indica la conclusione del lavoro. </li>
+      </ul> </p>
+      <h5 class="normal-text reveal">IMPLEMENTAZIONE DELL’APPLICAZIONE</h5>
+        <p class="reveal">Per implementare l’applicazione mi sono soffermato sul tipo di evento di ogni singolo lavoro e il
+        loro Timestamp.
+        La prima fase è stata quella di leggere, all’interno della tabella contenuta in ogni file .csv, le colonne
+        relative al Timestamp, JobID ed EventType.</p>
+        <p class="reveal">Successivamente ho creato dei vettori relativi allo stato del ciclo di vita di un lavoro, come SUBMIT-SCHEDULE, SCHEDULE-FAIL, SCHEDULE-FINISH,
+          SCHEDULE-LOST, SCHEDULE-EVICT, SCHEDULE-KILL, contenente il tempo in cui ogni
+          singolo ID resta nello stato di pending e running solo se il Timestamp è diverso da zero e se nella
+          colonna EventType sono presenti l’evento 0 che rappresenta SUBMIT, l’evento 1 che rappresenta
+          SCHEDULE e quindi il superamento dello stato pending per poi arrivare in quello di running e
+          infine l’evento 2/3/4/5/6 che indica il modo in cui il lavoro termina.</p>
+        <p class="reveal">A questo punto è stato possibile calcolare il numero dei lavori che superano lo stato PENDING, quelli
+          che falliscono per un qualsiasi motivo, quelli che finiscono regolarmente e i loro rispettivi tempi
+          medi in cui ciò accade.</p>
+        <p class="reveal">In seguito ho graficato l’istogramma di ogni singolo vettore, la loro CDF e PDF empirica che ti
+          consente di tracciare una caratteristica dei dati e di vedere la funzione come è distribuita nel set di
+          dati.</p>
+        <p class="reveal">Alcuni esempi di instogrammi:</p>
+        <img class="reveal" src="../image/insto1.jpg" alt="Foto instogramma lavori falliti" height="200" width="300"> <img class="reveal" src="../image/insto2.jpg" alt="Foto instogramma lavori conclusi correttamente" height="200" width="300">
+        <p class="reveal">Infine, dalla visione dell’istogramma dei vettori, ho notato che avevano un andamento esponenziale
+          e così, grazie al test di Kolmogorov-Smirnov che verifica la forma delle distribuzioni campionarie e
+          può essere utilizzato per confrontare un campione con una distribuzione di riferimento e utilizzando
+          le opportune librerie che Python mette a disposizione, ho confrontato i vettori calcolati con una
+          distribuzione esponenziale. I risultati ottenuti da questo test è che i vettori hanno quasi lo stesso
+          andamento dell’esponenziale ma è stata rifiutata l'ipotesi che provengano dalla stessa distribuzione.
+          In seguito sono riportati due esempi di grafici del vettore dei fallimenti con il calcolo della CDF e la
+          PDF con l’istogramma del vettore.<p/>
+          <img class="reveal" src="../image/insto3.jpg" alt="Foto CDF e PDF lavori falliti" height="300" width="800">
+  </div>
+  <footer class="footer">
+      <div class="col">
+        <p class="small-text tw" align="center" >20-21 - Raffaele Tolino</p>
+      </div>
+  </footer>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script>
+ScrollReveal().reveal('.reveal', { distance: '100px',  duration: 1000 , easing: 'cubic-bezier(.215, .61, .355, 1)', interval: 300  });
+ScrollReveal().reveal('.reveal_foot', { distance: '10px',  duration: 1500 , easing: 'cubic-bezier(.215, .61, .355, 1)', interval: 100  });
+</script>
+</body>
+</html>
